@@ -40,5 +40,12 @@
 </aside>
 
 <section class = "col-8">
-    
+    <ul>
+        <li>
+             {{#each college as |college|}}
+                {{>homepage-info college}}
+            {{/each}}
+        </li>
+    </ul>
+   
 </section>
