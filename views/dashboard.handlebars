@@ -1,0 +1,11 @@
+{{if college.length}}
+<section class="container">
+<main class="dashboard">
+    <h2>Your Colleges!</h2>
+    <div class="col-3">
+        {{#each college as |college|}}
+            {{>college-info college}}
+    </div>
+</main>
+</section>
+{{/if}}
