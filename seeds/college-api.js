@@ -11,8 +11,12 @@ const url =
 axios.get(url).then(function (data) {
 	// returns an array of only college results data
 	// instead of console logging, push it to collegeResultsData
-	console.log(data.data.results);
-
+	if (data.data.results.length > 0) {
+		console.log(data.data.results);
+	} else {
+		console.log("None");
+	}
+	collegeResultsData.concat(data.data.results);
 	// then repeat steps for the next api page
 });
 
