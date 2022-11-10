@@ -1,20 +1,20 @@
 <article class="collegeCard">
     <div class="mainInfo">
-        <a href="/college/{{id}}">
-        <header>{{name}}</header>
+        <a href="/college/{{college.id}}">
+        <header>{{college.name}}</header>
         </a>
         <div class="data bg-info">
             <div class="info col-12">
                 <h3 class="col-6 text-black">Tuition</h3>
-                <p class="col-6">{{price}}</p>
+                <p class="col-6">{{college.price}}</p>
             </div>
             <div class=" info col-12">
                 <h3 class="col-6 text-black">Student Size: </h3>
-                <p class="col-6">{{size}}</p>
+                <p class="col-6">{{college.size}}</p>
             </div>
             <div class=" info col-12">
                 <h3 class="col-6 text-black">School Webpage</h3>
-                <a href="{{url}}">{{url}}</a>
+                <a href="{{college.url}}">{{college.url}}</a>
             </div>
         </div>
     </div>
