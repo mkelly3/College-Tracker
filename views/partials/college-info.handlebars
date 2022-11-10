@@ -1,9 +1,10 @@
 <article class="collegeCard">
     <div class="mainInfo">
-        <a href="/college/{{college.id}}">
-        <header>{{college.name}}</header>
-        </a>
-        <div class="data bg-info">
+       
+        <h1 class="name">{{college.name}}</h1>
+        
+        <hr/>
+        <div class="data">
             <div class="info col-12">
                 <h3 class="col-6 text-black">Tuition</h3>
                 <p class="col-6">{{college.price}}</p>
@@ -17,5 +18,7 @@
                 <a href="{{college.url}}">{{college.url}}</a>
             </div>
         </div>
+        <br>
+        <button class="saveSchool">Favorite!</button>
     </div>
 </article>
