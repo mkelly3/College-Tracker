@@ -27,5 +27,4 @@ module.exports = {
     User,
     College,
     Comment,
-    UserCollege
 };

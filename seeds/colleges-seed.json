@@ -1,19 +1,9 @@
 [
 	{
-		"name": "University of Connecticut",
-		"url": "https://uconn.edu/",
-		"size": "20,000",
-		"tuition": {
-			"instate": "17834",
-			"out-of-state": "40500"
-		},
-		"location": "Mansfield, CT 06269",
-		"type": "public",
-		"admission_rate": "56%",
-		"graduation_rate": "83%",
-		"male_to_female": {
-			"Male": "48.43%",
-			"Female": "51.57%"
-		}
+		"id": 1,
+		"name": "Bradley",
+		"price": 50000,
+		"size": 15000,
+		"url": "www.examplecollege.com"
 	}
 ]
