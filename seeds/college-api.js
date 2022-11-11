@@ -15,18 +15,19 @@ const getColleges = (pageNumber) => {
 		pageNumber +
 		"&api_key=dra3zfoeWMdlOAkY6G0ceNBrdM1sYscwYQbnINMA";
 	return axios.get(query).then((data) => {
-		console.log(query);
+		// console.log(query);
 		// returns an array of only college results data
 		// instead of console logging, push it to collegeResultsData
 		if (data.data.results.length > 0) {
 			// console.log("This is data.data.results");
 			// console.log(data.data.results);
-			return data.data.results;
+			collegeResultsData.push(data.data.results);
+			// console.log("This is college array");
+			// console.log(collegeResultsData);
 		} else {
 			console.log("None");
 			return;
 		}
-		// then repeat steps for the next api page
 	});
 };
 
@@ -38,21 +39,41 @@ axios
 		console.log("This is the number of pages");
 		console.log(numPages);
 	})
+
 	.then(() => {
 		for (var i = 0; i < numPages; i++) {
 			pageNumber = i;
 			console.log("This is current index");
 			console.log(i);
+
 			// let x = getColleges().then(() => {
 			// console.log("This is getColleges function");
 			// console.log(x);
 			// collegeResultsData.push(getColleges());
-			collegeResultsData.push(getColleges(i));
-			console.log("This is the length of the api call");
-			console.log();
+
+			// collegeResultsData.push(getColleges(i));
+			// console.log("This is the length of the api call");
+			// console.log(collegeResultsData[i]);
+			getColleges(i);
 		}
-		console.log("This is the end");
-		console.log(collegeResultsData.length);
+	})
+
+	// .then(() => {
+	// 	collegeResultsData.push(getColleges(0));
+	// 	console.log(getColleges(0));
+	// 	return collegeResultsData;
+	// })
+
+	.then(() => {
+		const timeout = setTimeout(() => {
+			console.log("This is the end");
+			for (var i = 0; i < collegeResultsData.length; i++) {
+				console.log(collegeResultsData[i].length);
+			}
+		}, 5000);
+
+		// console.log(data);
+		// console.log(collegeResultsData.length);
 	});
 
 // push each page's array to collegeResultsData
