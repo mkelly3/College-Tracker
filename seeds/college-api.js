@@ -1,10 +1,10 @@
 const axios = require("axios");
-
+const fs = require("fs");
 // array containing all college data
 const collegeResultsData = [];
 let pageNumber;
 let numPages = 0;
-// TODO: hide api key
+
 // Currently querying for schools of at least 5,000 students
 let url =
 	"https://api.data.gov/ed/collegescorecard/v1/schools.json?2020.student.size__range=5000..&_fields=school.name,school.zip,school.city,school.state,school.school_url,2020.student.size,2020.student.demographics.men,2020.student.demographics.women,2020.cost.tuition.in_state,2020.cost.tuition.out_of_state,2020.cost.roomboard.oncampus,2020.cost.roomboard.offcampus,2020.cost.avg_net_price.public,2020.cost.avg_net_price.private,2020.completion.consumer_rate,2020.admissions.admission_rate.overall,2020.academics.program_available.assoc,2020.academics.program_available.bachelors&page=0&api_key=dra3zfoeWMdlOAkY6G0ceNBrdM1sYscwYQbnINMA";
@@ -36,15 +36,15 @@ axios
 	.then((data) => {
 		const totalData = data.data.metadata.total;
 		numPages = Math.ceil(totalData / 100); // will return the number of pages within the api query
-		console.log("This is the number of pages");
-		console.log(numPages);
+		// console.log("This is the number of pages");
+		// console.log(numPages);
 	})
 
 	.then(() => {
 		for (var i = 0; i < numPages; i++) {
 			pageNumber = i;
-			console.log("This is current index");
-			console.log(i);
+			// console.log("This is current index");
+			// console.log(i);
 
 			// let x = getColleges().then(() => {
 			// console.log("This is getColleges function");
@@ -66,15 +66,17 @@ axios
 
 	.then(() => {
 		const timeout = setTimeout(() => {
-			console.log("This is the end");
-			for (var i = 0; i < collegeResultsData.length; i++) {
-				console.log(collegeResultsData[i].length);
-			}
+			// console.log("This is the end");
+			// for (var i = 0; i < collegeResultsData.length; i++) {
+			// 	console.log(collegeResultsData[i].length);
+			// }
+			const finalCollegesList = collegeResultsData.flat();
+			fs.writeFileSync(
+				"./seeds/colleges-seed.json",
+				JSON.stringify(finalCollegesList),
+				(err) => {
+					err ? console.log("error") : console.log("success");
+				}
+			);
 		}, 5000);
-
-		// console.log(data);
-		// console.log(collegeResultsData.length);
 	});
-
-// push each page's array to collegeResultsData
-// at the end, collegeResultsData.flat to remove nested arrays
