@@ -43,6 +43,25 @@ router.post('/:id/comment', withAuth, async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
+
+router.put('/:id/comment/:commentID', withAuth, async (req, res) => {
+    try {
+        const updatedComment = await Comment.update(
+            {
+                title: req.body.title,
+                content: req.body.content
+            },    
+            {
+            where: {
+                college_id: req.params.id,
+                id: req.params.commentID
+            }
+            }
+        )
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router;
