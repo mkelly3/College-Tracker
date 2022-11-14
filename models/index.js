@@ -9,7 +9,12 @@ User.hasMany(Comment, {
 });
 
 User.hasMany(Saved, {
-    
+    foreignKey: 'user_id',
+    onDelete: 'CASCADE'
+});
+
+Saved.belongsTo(User, {
+    foreignKey: 'user_id'
 });
 
 Comment.belongsTo(User, {
@@ -32,4 +37,5 @@ module.exports = {
     User,
     College,
     Comment,
+    Saved
 };
