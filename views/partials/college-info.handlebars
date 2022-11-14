@@ -1,7 +1,7 @@
 <article class="collegeCard">
     <div class="mainInfo">
        
-        <h1 class="name">{{college.name}}</h1>
+        <h1 id ='collegeName' class="name">{{college.name}}</h1>
         
         <hr/>
         <div class="data">
@@ -15,10 +15,12 @@
             </div>
             <div class=" info col-12">
                 <h3 class="col-6 text-black">School Webpage</h3>
-                <a href="{{college.url}}">{{college.url}}</a>
+                <a id='collegePrice' href="{{college.url}}">{{college.url}}</a>
             </div>
         </div>
         <br>
-        <button class="saveSchool">Favorite!</button>
+        <button type="click" class="saveSchool">Favorite!</button>
     </div>
 </article>
+
+<script src="/js/favorite.js"></script>
