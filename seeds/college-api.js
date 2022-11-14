@@ -47,7 +47,7 @@ axios
 
 	// timeout of 5 seconds to give promises time to complete
 	// flattens the array because each page pushes an entire array of objects
-	// turn the flattened array into a .json file
+	// turn the flattened array into a .json file.
 	.then(() => {
 		const timeout = setTimeout(() => {
 			const finalCollegesList = collegeResultsData.flat();
