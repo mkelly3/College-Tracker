@@ -1,20 +1,10 @@
 const User = require('./Users');
 const Comment = require('./Comment');
 const College = require('./Colleges');
-const Saved = require('./Saved');
 
 User.hasMany(Comment, {
     foreignKey: 'user_id',
     onDelete: 'CASCADE'
-});
-
-User.hasMany(Saved, {
-    foreignKey: 'user_id',
-    onDelete: 'CASCADE'
-});
-
-Saved.belongsTo(User, {
-    foreignKey: 'user_id'
 });
 
 Comment.belongsTo(User, {
@@ -37,5 +27,4 @@ module.exports = {
     User,
     College,
     Comment,
-    Saved
 };
