@@ -14,26 +14,18 @@ College.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		price: {
+		Instate_Tuition: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
 		},
-		// instate: {
-		//     type: DataTypes.INTEGER,
-		//     allowNull: false,
-		// }
-		// outofstate: {
-		//     type: DataTypes.INTEGER,
-		//     allowNull: false,
-		// },
-		// oncampus: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-		// },
-		// offcampus: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-		// },
+		Out_Of_State_Tuition: {
+			type: DataTypes.INTEGER,
+		},
+		On_Campus: {
+			type: DataTypes.INTEGER,
+		},
+		Off_Campus: {
+			type: DataTypes.INTEGER,
+		},
 		size: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -42,30 +34,30 @@ College.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		// location: {
-		// 	type: DataTypes.STRING,
-		// 	allowNull: false,
-		// },
-		// associates: {
-		// 	type: DataTypes.BOOLEAN,
-		// 	allowNull: false,
-		// },
-		// bachelors: {
-		// 	type: DataTypes.BOOLEAN,
-		// 	allowNull: false,
-		// },
-		// admission: {
-		// 	type: DataTypes.DECIMAL(4, 2),
-		// 	allowNull: false,
-		// },
-		// Male_Students: {
-		// 	type: DataTypes.DECIMAL(4, 2),
-		// 	allowNull: false,
-		// },
-		// Female_Students: {
-		// 	type: DataTypes.DECIMAL(4, 2),
-		// 	allowNull: false,
-		// },
+		location: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		associates: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+		},
+		bachelors: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+		},
+		Admission_Rate: {
+			type: DataTypes.DECIMAL(4, 2),
+		},
+		Male_Students: {
+			type: DataTypes.DECIMAL(4, 2),
+		},
+		Female_Students: {
+			type: DataTypes.DECIMAL(4, 2),
+		},
+		School_Type: {
+			type: DataTypes.STRING,
+		},
 	},
 	{
 		sequelize,
