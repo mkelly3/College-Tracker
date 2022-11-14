@@ -14,22 +14,18 @@ College.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		// price: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-		// },
-		// Instate_Tuition: {
-		// 	type: DataTypes.INTEGER,
-		// },
-		// Out_Of_State_Tuition: {
-		// 	type: DataTypes.INTEGER,
-		// },
-		// On_Campus: {
-		// 	type: DataTypes.INTEGER,
-		// },
-		// Off_Campus: {
-		// 	type: DataTypes.INTEGER,
-		// },
+		Instate_Tuition: {
+			type: DataTypes.INTEGER,
+		},
+		Out_Of_State_Tuition: {
+			type: DataTypes.INTEGER,
+		},
+		On_Campus: {
+			type: DataTypes.INTEGER,
+		},
+		Off_Campus: {
+			type: DataTypes.INTEGER,
+		},
 		size: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -38,18 +34,18 @@ College.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		// location: {
-		// 	type: DataTypes.STRING,
-		// 	allowNull: false,
-		// },
-		// associates: {
-		// 	type: DataTypes.BOOLEAN,
-		// 	allowNull: false,
-		// },
-		// bachelors: {
-		// 	type: DataTypes.BOOLEAN,
-		// 	allowNull: false,
-		// },
+		location: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		associates: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+		},
+		bachelors: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+		},
 		Admission_Rate: {
 			type: DataTypes.DECIMAL(4, 2),
 		},
