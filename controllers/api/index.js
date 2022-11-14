@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const collegeRoutes = require('./collegeRoutes');
+const userRoutes = require('./userRoutes');
 
-router.get('/', (req, res) => {
-    res.status(500).json(req);
-});
+router.use('/college', collegeRoutes);
+router.use('/users', userRoutes);
 
 module.exports = router;
