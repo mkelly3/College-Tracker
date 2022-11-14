@@ -1,10 +1,15 @@
 const User = require('./Users');
 const Comment = require('./Comment');
 const College = require('./Colleges');
+const Saved = require('./Saved');
 
 User.hasMany(Comment, {
     foreignKey: 'user_id',
     onDelete: 'CASCADE'
+});
+
+User.hasMany(Saved, {
+    
 });
 
 Comment.belongsTo(User, {

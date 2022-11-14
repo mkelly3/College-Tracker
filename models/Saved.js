@@ -17,6 +17,14 @@ Saved.init(
         url: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id'
+            }
         }
     },
     {
@@ -26,3 +34,5 @@ Saved.init(
         modelName: 'saved'
     }
 )
+
+module.exports = Saved;
