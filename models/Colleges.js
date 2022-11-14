@@ -57,7 +57,6 @@ College.init(
 		},
 		School_Type: {
 			type: DataTypes.STRING,
-			allowNull: false,
 		},
 	},
 	{

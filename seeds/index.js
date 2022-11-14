@@ -3,25 +3,24 @@ const sequelize = require("../config/connection");
 const { College } = require("../models");
 
 const seedAll = async () => {
+	// call sequelize and create the database
 	await sequelize.sync({ force: true });
-	// await College.bulkCreate(seed, { returning: true });
 
 	for (let i = 0; i < collegesData.length; i++) {
 		let schoolType;
 		let admissionRate;
+		// will set set the school_type as public, private, or null
 		if (!!collegesData[i]["2020.cost.avg_net_price.public"]) {
 			schoolType = "public";
 		} else if (!!collegesData[i]["2020.cost.avg_net_price.private"]) {
 			schoolType = "private";
-		} else {
-			schoolType = "N/A";
 		}
-
+		// if admission rate exists, convert to XX.XX format
 		if (!!collegesData[i]["2020.admissions.admission_rate.overall"]) {
 			admissionRate =
 				collegesData[i]["2020.admissions.admission_rate.overall"] * 100;
 		}
-
+		// create sql rows with api data
 		await College.create({
 			name: collegesData[i]["school.name"],
 			Instate_Tuition: collegesData[i]["2020.cost.tuition.in_state"],
