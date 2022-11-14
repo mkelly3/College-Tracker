@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { User, College, Comment } = require('../../models');
+const { User, College, Comment, UserCollege } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/:id', withAuth, async (req, res) => {
     try {
-        const newSavedCollege = await College.create({
-            ...req.body,
+        const newSavedCollege = await UserCollege.create({
+            college_id: req.params.id,
             user_id: req.session.user_id
         });
         res.status(200).json(newSavedCollege);
@@ -16,9 +16,9 @@ router.post('/:id', withAuth, async (req, res) => {
 
 router.delete('/:id', withAuth, async (req, res) => {
     try {
-        const collegeData = await College.destroy({
+        const collegeData = await UserCollege.destroy({
             where: {
-                id: req.params.id,
+                college_id: req.params.id,
                 user_id: req.session.user_id
             }
         });
