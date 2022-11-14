@@ -15,28 +15,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/dashboard', async (req, res) => {
-    try {
-        const collegeData = await College.findAll({
-            where: {
-                user_id: req.session.user_id
-            },
-            include: [{ model: Comment }]
-        })
 
-        // const college = collegeData.get({ plain: true });
-
-        res.render('dashboard', {
-            collegeData,
-            logged_in: true
-        });
-        
-        
-    } catch (err) {
-        res.status(500).json(err);
-    }
-}
-);
 
 router.get('/college/:id', async (req, res) => {
     try {
