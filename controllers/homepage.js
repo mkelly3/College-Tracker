@@ -1,12 +1,11 @@
 
-// will contain all of the user-facing routes, such as the homepage and login page
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { College, User, Comment } = require('../models');
 const router = require('express').Router();
 
 
 router.get('/', (req, res) => {
-    Post.findAll({
+    College.findAll({
       attributes: [
         'id',
         'name',
@@ -27,7 +26,7 @@ router.get('/', (req, res) => {
       include: [
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', ],
+          attributes: ['id', 'comment_text', 'College_id', 'user_id', ],
           include: {
             model: User,
             attributes: ['username']
@@ -39,9 +38,9 @@ router.get('/', (req, res) => {
         }
       ]
     })
-      .then(dbPostData => {
-        const posts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('homepage', { posts, loggedIn: req.session.loggedIn });
+      .then(dbCollegeData => {
+        const Colleges = dbCollegeData.map(College => College.get({ plain: true }));
+        res.render('homepage', { Colleges, loggedIn: req.session.loggedIn });
       })
       .catch(err => {
         console.log(err);
@@ -59,14 +58,12 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-// redirecting users to sign in page once they sign up
 router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-//rendering one post to the single-post page
-router.get('/post/:id', (req, res) => {
-    Post.findOne({
+router.get('/College/:id', (req, res) => {
+    College.findOne({
       where: {
         id: req.params.id
       },
@@ -90,7 +87,7 @@ router.get('/post/:id', (req, res) => {
       include: [
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          attributes: ['id', 'comment_text', 'College_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username']
@@ -102,18 +99,16 @@ router.get('/post/:id', (req, res) => {
         }
       ]
     })
-      .then(dbPostData => {
-        if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
+      .then(dbCollegeData => {
+        if (!dbCollegeData) {
+          res.status(404).json({ message: 'No College found with this id' });
           return;
         }
   
-        // serialize the data
-        const post = dbPostData.get({ plain: true });
+        const College = dbCollegeData.get({ plain: true });
   
-        // pass data to template
-        console.log(post);
-        res.render('single-post', { post, loggedIn: req.session.loggedIn});
+        console.log(College);
+        res.render('single-College', { College, loggedIn: req.session.loggedIn});
 
 
       })
@@ -123,9 +118,8 @@ router.get('/post/:id', (req, res) => {
       });
   });
 
-// redirecting users to see all their posts with comments
-router.get('/posts-comments', (req, res) => {
-    Post.findOne({
+router.get('/Colleges-comments', (req, res) => {
+    College.findOne({
         where: {
           id: req.params.id
         },
@@ -149,7 +143,7 @@ router.get('/posts-comments', (req, res) => {
         include: [
           {
             model: Comment,
-            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            attributes: ['id', 'comment_text', 'Colllege_id', 'user_id'],
             include: {
               model: User,
               attributes: ['username']
@@ -161,17 +155,15 @@ router.get('/posts-comments', (req, res) => {
           }
         ]
       })
-        .then(dbPostData => {
-          if (!dbPostData) {
-            res.status(404).json({ message: 'No post found with this id' });
+        .then(dbCollegeData => {
+          if (!dbCollegeData) {
+            res.status(404).json({ message: 'No College found with this id' });
             return;
           }
     
-          // serialize the data
-          const post = dbPostData.get({ plain: true });
+          const College = dbCollegeData.get({ plain: true });
     
-          // pass data to template
-          res.render('posts-comments', { post, loggedIn: req.session.loggedIn});
+          res.render('Colleges-comments', { College, loggedIn: req.session.loggedIn});
         })
         .catch(err => {
           console.log(err);

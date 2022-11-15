@@ -1,9 +1,7 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../../models');
+const { User, College, Comment } = require('../../models');
 
-// GET /api/users
 router.get('/', (req, res) => {
-    // access our user model and run .findAll() method -- similar to SELECT * FROM users;
     User.findAll({
         attributes: { exclude: ['[password']}
     })
@@ -15,8 +13,6 @@ router.get('/', (req, res) => {
 });
 
 
-
-// GET /api/users/1
 router.get('/:id', (req, res) => {
     User.findOne({
         attributes: { exclude: ['password'] },
@@ -25,25 +21,22 @@ router.get('/:id', (req, res) => {
         },
         include: [
           {
-            model: Post,
+            model: college,
             attributes: [
                 'id', 
-                'title', 
-                'content', 
-                'created_at']
+                'name']
           },
-          // include the Comment model here:
           {
             model: Comment,
             attributes: ['id', 'comment_text', 'created_at'],
             include: {
-              model: Post,
-              attributes: ['title']
+              model: college,
+              attributes: ['name']
             }
           },
           {
-            model: Post,
-            attributes: ['title'],
+            model: college,
+            attributes: ['name'],
           }
         ]
       })
@@ -65,7 +58,6 @@ router.post('/', (req, res) => {
         username: req.body.username,
         password: req.body.password
     })
-    // store user data during session 
     .then(dbUserData => {
     req.session.save(() => {
         req.session.user_id = dbUserData.id;
@@ -82,7 +74,6 @@ router.post('/', (req, res) => {
 });
 
 
-// POST to identify users 
 router.post('/login', (req, res) => {
   
     User.findOne({
@@ -145,7 +136,6 @@ router.put('/:id', (req, res) => {
 
 });
 
-// DELETE /api/users/1
 router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
@@ -164,8 +154,6 @@ router.delete('/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
-
-
 
 
 module.exports = router;
