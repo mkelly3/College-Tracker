@@ -1,36 +1,23 @@
 
 const sequelize = require('../config/connection');
-const {Post, User, Comment} = require('../models');
+const {College, User, Comment, UserCollege} = require('../models');
 const withAuth = require('../utils/auth');
 const router = require('express').Router();
 
 
 router.get('/', withAuth, (req, res) => {
-    Post.findAll({
+    College.findAll({
       where: {
         user_id: req.session.user_id
       },
       attributes: [
         'id',
         'name',
-        'Instate_Tuition',
-        'Out_Of_State_Tuition',
-        'On_Campus',
-        'Off_Campus',
-        'size',
-        'url',
-        'location',
-        'associates',
-        'bachelors',
-        'Admission_Rate',
-        'Male_Students',
-        'Female_Students',
-        'School_Type'
       ],
       include: [
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          attributes: ['id', 'comment_text', 'college_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username']
@@ -52,28 +39,15 @@ router.get('/', withAuth, (req, res) => {
       });
   });
 
-//get a single post
 router.get('/edit/:id', withAuth, (req, res) => {
-    Post.findOne({
+    College.findOne({
         where: {
           id: req.params.id
         },
-        attributes: [ 'id',
-        'name',
-        'Instate_Tuition',
-        'Out_Of_State_Tuition',
-        'On_Campus',
-        'Off_Campus',
-        'size',
-        'url',
-        'location',
-        'associates',
-        'bachelors',
-        'Admission_Rate',
-        'Male_Students',
-        'Female_Students',
-        'School_Type'
-                  ],
+        attributes: [ 
+          'id',
+          'name',
+        ],
         include: [
           {
             model: User,
@@ -81,7 +55,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
           },
           {
             model: Comment,
-            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            attributes: ['id', 'comment_text', 'college_id', 'user_id'],
             include: {
               model: User,
               attributes: ['username']
@@ -89,13 +63,12 @@ router.get('/edit/:id', withAuth, (req, res) => {
           }
         ]
       })
-        .then(dbPostData => {
-          if (!dbPostData) {
+        .then(dbCollegeData => {
+          if (!dbCollegeData) {
             res.status(404).json({ message: 'No post found with this id' });
             return;
           }
-            // serialize data before passing to template
-            const post = dbPostData.get({ plain: true });
+            const post = dbCollegeData.get({ plain: true });
             res.render('edit-post', {post, loggedIn: true});
         })
         .catch(err => {

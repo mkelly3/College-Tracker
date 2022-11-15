@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const { Post, User, Comment} = require('../../models');
+const { College, User, Comment} = require('../../models');
 const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
-// Get all posts
 router.get('/', (req, res) => {
     console.log('======================');
-    Post.findAll({
+    College.findAll({
         attributes: [ 'id',
         'name',
         'Instate_Tuition',
@@ -31,7 +30,7 @@ router.get('/', (req, res) => {
             },
             {
             model: Comment,
-            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            attributes: ['id', 'comment_text', 'College_id', 'user_id'],
             include: {
                 model: User,
                 attributes: ['username']
@@ -39,7 +38,7 @@ router.get('/', (req, res) => {
             }
         ]
     })
-        .then(dbPostData => res.json(dbPostData.reverse()))
+        .then(dbCollegeData => res.json(dbCollegeData.reverse()))
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -47,9 +46,8 @@ router.get('/', (req, res) => {
   
 });
 
-// Get a single post by an id
 router.get('/:id', (req, res) => {
-    Post.findOne({
+    College.findOne({
       where: {
         id: req.params.id
       },
@@ -76,7 +74,7 @@ router.get('/:id', (req, res) => {
         },
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          attributes: ['id', 'comment_text', 'College_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username']
@@ -84,12 +82,12 @@ router.get('/:id', (req, res) => {
         }
       ]
     })
-      .then(dbPostData => {
-        if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
+      .then(dbCollegeData => {
+        if (!dbCollegeData) {
+          res.status(404).json({ message: 'No College found with this id' });
           return;
         }
-        res.json(dbPostData);
+        res.json(dbCollegeData);
       })
       .catch(err => {
         console.log(err);
@@ -97,15 +95,15 @@ router.get('/:id', (req, res) => {
       });
   });
 
-// // creating a post
-// router.post('/', withAuth, (req, res) => {
-//     // create 1 post
-//     Post.create({ 
+// // creating a College
+// router.College('/', withAuth, (req, res) => {
+//     // create 1 College
+//     College.create({ 
 //         title: req.body.title,
 //         content: req.body.content,
 //         user_id: req.session.user_id
 //     })
-//         .then(dbPostData => res.json(dbPostData))
+//         .then(dbCollegeData => res.json(dbCollegeData))
 //         .catch(err => {
 //             console.log(err);
 //             res.status(500).json(err); 
@@ -114,9 +112,9 @@ router.get('/:id', (req, res) => {
 
 
 
-// // update a post title
+// // update a College title
 // router.put('/:id', withAuth, (req, res) => {
-//     Post.update({
+//     College.update({
 //         title: req.body.title,
 //         content: req.body.content
 //       },
@@ -124,12 +122,12 @@ router.get('/:id', (req, res) => {
 //         where: {
 //           id: req.params.id
 //         }
-//     }).then(dbPostData => {
-//         if (!dbPostData) {
-//             res.status(404).json({ message: 'No post found with this id' });
+//     }).then(dbCollegeData => {
+//         if (!dbCollegeData) {
+//             res.status(404).json({ message: 'No College found with this id' });
 //             return;
 //         }
-//         res.json(dbPostData);
+//         res.json(dbCollegeData);
 //     })
 //       .catch(err => {
 //         console.log(err);
@@ -139,18 +137,18 @@ router.get('/:id', (req, res) => {
 
 
 
-// // delete a post 
+// // delete a College 
 // router.delete('/:id', withAuth, (req, res) => {
-//     Post.destroy({
+//     College.destroy({
 //         where: {
 //             id: req.params.id 
 //         }
-//     }).then(dbPostData => {
-//         if (!dbPostData) {
-//             res.status(404).json({ message: 'No post found with this id' });
+//     }).then(dbCollegeData => {
+//         if (!dbCollegeData) {
+//             res.status(404).json({ message: 'No College found with this id' });
 //             return;
 //         }
-//         res.json(dbPostData);
+//         res.json(dbCollegeData);
 //     }).catch(err => {
 //         console.log(err);
 //         res.status(500).json(err);

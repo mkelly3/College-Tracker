@@ -1,8 +1,7 @@
 const seedUsers = require('./user-seed');
 const collegesData = require('./colleges-seed.json');
 const seedComments = require('./comment-seed');
-const {Post} = require('../models')
-
+const {College} = require('../models')
 const sequelize = require('../config/connection');
 
 const seedAll = async () => {
@@ -11,19 +10,16 @@ const seedAll = async () => {
     for (let i = 0; i < collegesData.length; i++) {
       let schoolType;
       let admissionRate;
-      // will set set the school_type as public, private, or null
       if (!!collegesData[i]["2020.cost.avg_net_price.public"]) {
         schoolType = "public";
       } else if (!!collegesData[i]["2020.cost.avg_net_price.private"]) {
         schoolType = "private";
       }
-      // if admission rate exists, convert to XX.XX format
       if (!!collegesData[i]["2020.admissions.admission_rate.overall"]) {
         admissionRate =
           collegesData[i]["2020.admissions.admission_rate.overall"] * 100;
       }
-      // create sql rows with api data
-      await Post.create({
+      await College.create({
         name: collegesData[i]["school.name"],
         Instate_Tuition: collegesData[i]["2020.cost.tuition.in_state"],
         Out_Of_State_Tuition: collegesData[i]["2020.cost.tuition.out_of_state"],
