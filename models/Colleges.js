@@ -1,9 +1,11 @@
+// module.exports = Post;
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-
+// create our Post model
 class College extends Model {}
 
+// create fields/columns for Post model
 College.init(
     {
       id: {
@@ -59,14 +61,6 @@ College.init(
       },
       School_Type: {
         type: DataTypes.STRING,
-      },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'user',
-            key: 'id'
-        }
       },
     },
     {

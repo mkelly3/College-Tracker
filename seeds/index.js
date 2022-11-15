@@ -17,8 +17,6 @@ const seedAll = async () => {
           collegesData[i]["school.city"] + " " + collegesData[i]["school.state"],
         associates: collegesData[i]["2020.academics.program_available.assoc"],
         bachelors: collegesData[i]["2020.academics.program_available.bachelors"],
-        Admission_Rate: admissionRate,
-        School_Type: schoolType,
         On_Campus: collegesData[i]["2020.cost.roomboard.oncampus"],
         Off_Campus: collegesData[i]["2020.cost.roomboard.offcampus"],
         Male_Students: collegesData[i]["2020.student.demographics.men"] * 100,

@@ -1,11 +1,9 @@
-
-const sequelize = require('../config/connection');
-const {College, User, Comment, UserCollege} = require('../models');
-const withAuth = require('../utils/auth');
 const router = require('express').Router();
+const { User, College, Comment } = require('../models');
+const withAuth = require('../utils/auth');
 
 
-router.get('/', withAuth, async (req, res) => {
+router.get('/',withAuth, async (req, res) => {
     try {
         const collegeData = await College.findAll({
             include: 
@@ -16,12 +14,17 @@ router.get('/', withAuth, async (req, res) => {
                   }
             ]
         })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
+
+        // const college = collegeData.get({ plain: true });
+
+        res.render('dashboard', {
         });
-})
+        
+        
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+);
 
-
-
-module.exports = router;
+module.exports=router;

@@ -1,158 +1,67 @@
 const router = require('express').Router();
-const { College, User, Comment} = require('../../models');
-const sequelize = require('../../config/connection');
+const { User, College, Comment, UserCollege } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.get('/', (req, res) => {
-    console.log('======================');
-    College.findAll({
-        attributes: [ 'id',
-        'name',
-        'Instate_Tuition',
-        'Out_Of_State_Tuition',
-        'On_Campus',
-        'Off_Campus',
-        'size',
-        'url',
-        'location',
-        'associates',
-        'bachelors',
-        'Admission_Rate',
-        'Male_Students',
-        'Female_Students',
-        'School_Type'
-                    ],
-           
-        include: [
-            {
-            model: User,
-            attributes: ['username']
-            },
-            {
-            model: Comment,
-            attributes: ['id', 'comment_text', 'College_id', 'user_id'],
-            include: {
-                model: User,
-                attributes: ['username']
-            }
-            }
-        ]
-    })
-        .then(dbCollegeData => res.json(dbCollegeData.reverse()))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+router.post('/:id', withAuth, async (req, res) => {
+    try {
+        const newSavedCollege = await UserCollege.create({
+            college_id: req.params.id,
+            user_id: req.session.user_id
         });
-  
+        res.status(200).json(newSavedCollege);
+    } catch (err) {
+        res.status(400).json(err);
+    }
 });
 
-router.get('/:id', (req, res) => {
-    College.findOne({
-      where: {
-        id: req.params.id
-      },
-      attributes: [ 'id',
-      'name',
-      'Instate_Tuition',
-      'Out_Of_State_Tuition',
-      'On_Campus',
-      'Off_Campus',
-      'size',
-      'url',
-      'location',
-      'associates',
-      'bachelors',
-      'Admission_Rate',
-      'Male_Students',
-      'Female_Students',
-      'School_Type'
-                ],
-      include: [
-        {
-          model: User,
-          attributes: ['username']
-        },
-        {
-          model: Comment,
-          attributes: ['id', 'comment_text', 'College_id', 'user_id'],
-          include: {
-            model: User,
-            attributes: ['username']
-          }
-        }
-      ]
-    })
-      .then(dbCollegeData => {
-        if (!dbCollegeData) {
-          res.status(404).json({ message: 'No College found with this id' });
-          return;
-        }
-        res.json(dbCollegeData);
-      })
-      .catch(err => {
-        console.log(err);
+router.delete('/:id', withAuth, async (req, res) => {
+    try {
+        const collegeData = await UserCollege.destroy({
+            where: {
+                college_id: req.params.id,
+                user_id: req.session.user_id
+            }
+        });
+
+        if (!projectData) {res.status(404).json({message: `Couldn't find a college with this id!`})};
+
+        res.status(200).json(collegeData);
+
+    } catch (err) {
         res.status(500).json(err);
-      });
-  });
+    }
+});
 
-// // creating a College
-// router.College('/', withAuth, (req, res) => {
-//     // create 1 College
-//     College.create({ 
-//         title: req.body.title,
-//         content: req.body.content,
-//         user_id: req.session.user_id
-//     })
-//         .then(dbCollegeData => res.json(dbCollegeData))
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json(err); 
-//         });
-// });
+router.post('/:id/comment', withAuth, async (req, res) => {
+    try {
+        const newComment = await Comment.create({
+            ...req.body,
+            user_id: req.session.user_id,
+            college_id: req.params.id
+        });
+        res.status(200).json(newComment);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
-
-
-// // update a College title
-// router.put('/:id', withAuth, (req, res) => {
-//     College.update({
-//         title: req.body.title,
-//         content: req.body.content
-//       },
-//       {
-//         where: {
-//           id: req.params.id
-//         }
-//     }).then(dbCollegeData => {
-//         if (!dbCollegeData) {
-//             res.status(404).json({ message: 'No College found with this id' });
-//             return;
-//         }
-//         res.json(dbCollegeData);
-//     })
-//       .catch(err => {
-//         console.log(err);
-//         res.status(500).json(err);
-//     });
-// });
-
-
-
-// // delete a College 
-// router.delete('/:id', withAuth, (req, res) => {
-//     College.destroy({
-//         where: {
-//             id: req.params.id 
-//         }
-//     }).then(dbCollegeData => {
-//         if (!dbCollegeData) {
-//             res.status(404).json({ message: 'No College found with this id' });
-//             return;
-//         }
-//         res.json(dbCollegeData);
-//     }).catch(err => {
-//         console.log(err);
-//         res.status(500).json(err);
-//     });
-// });
+router.put('/:id/comment/:commentID', withAuth, async (req, res) => {
+    try {
+        const updatedComment = await Comment.update(
+            {
+                title: req.body.title,
+                content: req.body.content
+            },    
+            {
+            where: {
+                college_id: req.params.id,
+                id: req.params.commentID
+            }
+            }
+        )
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router;
