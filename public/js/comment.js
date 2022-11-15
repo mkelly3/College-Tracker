@@ -5,7 +5,7 @@ async function newFormHandler(event) {
 
     
 
-    const response = await fetch(`/api/college/comments`, {
+    const response = await fetch(`/api/college/comment`, {
         method: 'POST',
         body: {
             comment,
