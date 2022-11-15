@@ -1,67 +1,161 @@
+
 const router = require('express').Router();
-const { User, College, Comment, UserCollege } = require('../../models');
+const { Post, User, Comment} = require('../../models');
+const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
-router.post('/:id', withAuth, async (req, res) => {
-    try {
-        const newSavedCollege = await UserCollege.create({
-            college_id: req.params.id,
-            user_id: req.session.user_id
-        });
-        res.status(200).json(newSavedCollege);
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
-
-router.delete('/:id', withAuth, async (req, res) => {
-    try {
-        const collegeData = await UserCollege.destroy({
-            where: {
-                college_id: req.params.id,
-                user_id: req.session.user_id
-            }
-        });
-
-        if (!projectData) {res.status(404).json({message: `Couldn't find a college with this id!`})};
-
-        res.status(200).json(collegeData);
-
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-router.post('/', withAuth, async (req, res) => {
-    try {
-        const newComment = await Comment.create({
-            content: req.body.comment,
-            user_id: req.session.user_id,
-            college_id: req.body.college_id
-        });
-        res.status(200).json(newComment);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-router.put('/:id/comment/:commentID', withAuth, async (req, res) => {
-    try {
-        const updatedComment = await Comment.update(
+// Get all posts
+router.get('/', (req, res) => {
+    console.log('======================');
+    Post.findAll({
+        attributes: [ 'id',
+        'name',
+        'Instate_Tuition',
+        'Out_Of_State_Tuition',
+        'On_Campus',
+        'Off_Campus',
+        'size',
+        'url',
+        'location',
+        'associates',
+        'bachelors',
+        'Admission_Rate',
+        'Male_Students',
+        'Female_Students',
+        'School_Type'
+                    ],
+           
+        include: [
             {
-                title: req.body.title,
-                content: req.body.content
-            },    
+            model: User,
+            attributes: ['username']
+            },
             {
-            where: {
-                college_id: req.params.id,
-                id: req.params.commentID
+            model: Comment,
+            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            include: {
+                model: User,
+                attributes: ['username']
             }
             }
-        )
-    } catch (err) {
-        res.status(500).json(err);
-    }
+        ]
+    })
+        .then(dbPostData => res.json(dbPostData.reverse()))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+  
 });
+
+// Get a single post by an id
+router.get('/:id', (req, res) => {
+    Post.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: [ 'id',
+      'name',
+      'Instate_Tuition',
+      'Out_Of_State_Tuition',
+      'On_Campus',
+      'Off_Campus',
+      'size',
+      'url',
+      'location',
+      'associates',
+      'bachelors',
+      'Admission_Rate',
+      'Male_Students',
+      'Female_Students',
+      'School_Type'
+                ],
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        },
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        }
+      ]
+    })
+      .then(dbPostData => {
+        if (!dbPostData) {
+          res.status(404).json({ message: 'No post found with this id' });
+          return;
+        }
+        res.json(dbPostData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+
+// // creating a post
+// router.post('/', withAuth, (req, res) => {
+//     // create 1 post
+//     Post.create({ 
+//         title: req.body.title,
+//         content: req.body.content,
+//         user_id: req.session.user_id
+//     })
+//         .then(dbPostData => res.json(dbPostData))
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json(err); 
+//         });
+// });
+
+
+
+// // update a post title
+// router.put('/:id', withAuth, (req, res) => {
+//     Post.update({
+//         title: req.body.title,
+//         content: req.body.content
+//       },
+//       {
+//         where: {
+//           id: req.params.id
+//         }
+//     }).then(dbPostData => {
+//         if (!dbPostData) {
+//             res.status(404).json({ message: 'No post found with this id' });
+//             return;
+//         }
+//         res.json(dbPostData);
+//     })
+//       .catch(err => {
+//         console.log(err);
+//         res.status(500).json(err);
+//     });
+// });
+
+
+
+// // delete a post 
+// router.delete('/:id', withAuth, (req, res) => {
+//     Post.destroy({
+//         where: {
+//             id: req.params.id 
+//         }
+//     }).then(dbPostData => {
+//         if (!dbPostData) {
+//             res.status(404).json({ message: 'No post found with this id' });
+//             return;
+//         }
+//         res.json(dbPostData);
+//     }).catch(err => {
+//         console.log(err);
+//         res.status(500).json(err);
+//     });
+// });
 
 module.exports = router;

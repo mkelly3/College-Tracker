@@ -1,48 +1,182 @@
+
+// will contain all of the user-facing routes, such as the homepage and login page
+const sequelize = require('../config/connection');
+const { Post, User, Comment } = require('../models');
 const router = require('express').Router();
-const { User, College, Comment } = require('../models');
-const withAuth = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-    try {
-        const collegeData = await College.findAll();
-        const college = collegeData.map((col) => col.get({ plain: true }));
-        res.render('homepage', {
-            college,
-            logged_in: req.session.logged_in
-        });
-    } catch (err) {
+
+router.get('/', (req, res) => {
+    Post.findAll({
+      attributes: [
+        'id',
+        'name',
+        'Instate_Tuition',
+        'Out_Of_State_Tuition',
+        'On_Campus',
+        'Off_Campus',
+        'size',
+        'url',
+        'location',
+        'associates',
+        'bachelors',
+        'Admission_Rate',
+        'Male_Students',
+        'Female_Students',
+        'School_Type'
+      ],
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id', ],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
+    })
+      .then(dbPostData => {
+        const posts = dbPostData.map(post => post.get({ plain: true }));
+        res.render('homepage', { posts, loggedIn: req.session.loggedIn });
+      })
+      .catch(err => {
+        console.log(err);
         res.status(500).json(err);
-    }
+      });
 });
 
 
-
-router.get('/college/:id', async (req, res) => {
-    try {
-        const collegeData = await College.findByPk(req.params.id, {
-            attributes: { include: ['id','name','url'] },
-            include: [{ model: Comment }]
-        });
-        const college = collegeData.get({ plain: true });
-
-        res.render('single-college', {
-            college,
-            logged_in: req.session.logged_in
-        });
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
 
 router.get('/login', (req, res) => {
-    if(req.session.logged_in) {
+    if(req.session.loggedIn) {
         res.redirect('/');
-        return;
+        return; 
     }
     res.render('login');
 });
 
-router.get('/signup', (req, res) => { res.render('signup') });
+// redirecting users to sign in page once they sign up
+router.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
+//rendering one post to the single-post page
+router.get('/post/:id', (req, res) => {
+    Post.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: [
+        'id',
+        'name',
+        'Instate_Tuition',
+        'Out_Of_State_Tuition',
+        'On_Campus',
+        'Off_Campus',
+        'size',
+        'url',
+        'location',
+        'associates',
+        'bachelors',
+        'Admission_Rate',
+        'Male_Students',
+        'Female_Students',
+        'School_Type'
+      ],
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
+    })
+      .then(dbPostData => {
+        if (!dbPostData) {
+          res.status(404).json({ message: 'No post found with this id' });
+          return;
+        }
+  
+        // serialize the data
+        const post = dbPostData.get({ plain: true });
+  
+        // pass data to template
+        console.log(post);
+        res.render('single-post', { post, loggedIn: req.session.loggedIn});
 
 
-module.exports = router;
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+
+// redirecting users to see all their posts with comments
+router.get('/posts-comments', (req, res) => {
+    Post.findOne({
+        where: {
+          id: req.params.id
+        },
+        attributes: [
+          'id',
+          'name',
+          'Instate_Tuition',
+          'Out_Of_State_Tuition',
+          'On_Campus',
+          'Off_Campus',
+          'size',
+          'url',
+          'location',
+          'associates',
+          'bachelors',
+          'Admission_Rate',
+          'Male_Students',
+          'Female_Students',
+          'School_Type'
+        ],
+        include: [
+          {
+            model: Comment,
+            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            include: {
+              model: User,
+              attributes: ['username']
+            }
+          },
+          {
+            model: User,
+            attributes: ['username']
+          }
+        ]
+      })
+        .then(dbPostData => {
+          if (!dbPostData) {
+            res.status(404).json({ message: 'No post found with this id' });
+            return;
+          }
+    
+          // serialize the data
+          const post = dbPostData.get({ plain: true });
+    
+          // pass data to template
+          res.render('posts-comments', { post, loggedIn: req.session.loggedIn});
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json(err);
+        });
+});
+
+module.exports = router; 
