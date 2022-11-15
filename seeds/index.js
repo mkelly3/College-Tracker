@@ -1,10 +1,10 @@
 const collegesData = require("./colleges-seed.json");
 const sequelize = require("../config/connection");
-const { College } = require("../models");
+const { College, Comment } = require("../models");
+const commentsData = require("./comment-seed.json")
 
 const seedAll = async () => {
 	await sequelize.sync({ force: true });
-	// await College.bulkCreate(seed, { returning: true });
 
 	for (let i = 0; i < collegesData.length; i++) {
 		await College.create({
@@ -28,8 +28,21 @@ const seedAll = async () => {
 			// femaleStudents: collegesData[i]["2020.student.demographics.women"],
 		}).catch((err) => {
 			console.log(err);
-		});
+		});	
 	}
+	
+	//for (let i = 0; i < commentsData.length; i++) {
+		//await Comment.create({ 
+		//	title: commentsData[i]["title"],
+		//	content: commentsData[i]["content"],
+		//	user_id: commentsData[i]["user_id"],
+		//	college_id: commentsData[i]["college_id"]
+		//}).catch((err) => {
+		//	console.log(err);
+		//});
+	//}
+	
+	
 	process.exit(0);
 };
 

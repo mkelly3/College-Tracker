@@ -32,12 +32,12 @@ router.delete('/:id', withAuth, async (req, res) => {
     }
 });
 
-router.post('/:id/comment', withAuth, async (req, res) => {
+router.post('/comment', withAuth, async (req, res) => {
     try {
         const newComment = await Comment.create({
-            ...req.body,
+            content: req.body.comment,
             user_id: req.session.user_id,
-            college_id: req.params.id
+            college_id: req.body.college_id
         });
         res.status(200).json(newComment);
     } catch (err) {

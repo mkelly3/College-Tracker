@@ -1,21 +1,24 @@
 async function newFormHandler(event) {
     event.preventDefault();
-    const comment = document.querySelector('comment').value;
+    const comment = document.querySelector('#comment').value;
+    const collegeID = document.querySelector('#submit').data-collegeID.value;
 
-    const response = await fetch(`/api/college`, {
+    
+
+    const response = await fetch(`/api/college/comments`, {
         method: 'POST',
-        body: JSON.stringify({
-            comment
-        }),
+        body: {
+            comment,
+            college_id: collegeID,
         headers: {
             'Content-Type': 'appplication/json',
-        },
+        }},
     });
     if(response.ok) {
-        document.location.replace('/');
+        document.location.replace(`/college/${collegeID}`);
     } else {
         alert('Failed to post comment');
     }
 }
 
-document.querySelector('comment-form').addEventListener('submit', newFormHandler);
+document.querySelector('#comment-form').addEventListener('submit', newFormHandler);
