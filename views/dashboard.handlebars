@@ -14,3 +14,21 @@
 
 </main>
 </section>
+
+
+<section>
+    <h2>My Reviews</h2>
+    <div class="commentCard">
+    <form class="card-body comment-form" id="comment-form">
+        <label class="form-label">Comment</label>
+        <input id="comment" name="comment-body" class="form-input" />
+        <div class="form-button-layout">
+        <button type="submit" class="btn">Submit</button>
+        </div>
+    </form>
+</div>
+{{#each comment}}
+{{>comment}}
+{{/each}}
+<script src="/js/comment.js"></script>
+</section>

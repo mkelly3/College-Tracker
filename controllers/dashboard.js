@@ -27,4 +27,22 @@ router.get('/',withAuth, async (req, res) => {
 }
 );
 
+
+
+
+router.post('/', withAuth, (req, res) => {
+    // check session
+    if (req.session) {
+    Comment.create({
+        content: req.body.content, 
+        // use the id from the session
+    })
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        })
+    }
+});
+
 module.exports=router;

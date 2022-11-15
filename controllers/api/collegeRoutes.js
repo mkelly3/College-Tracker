@@ -1,67 +1,76 @@
 const router = require('express').Router();
-const { User, College, Comment, UserCollege } = require('../../models');
+const router = require('express').Router();
+const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/:id', withAuth, async (req, res) => {
-    try {
-        const newSavedCollege = await UserCollege.create({
-            college_id: req.params.id,
-            user_id: req.session.user_id
-        });
-        res.status(200).json(newSavedCollege);
-    } catch (err) {
-        res.status(400).json(err);
+//route to get all the comments
+router.get('/', (req, res) => {
+    Comment.findAll({})
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err); 
+            res.status(500).json(err); 
+        })
+});
+
+//route to create a comment
+router.post('/', withAuth, (req, res) => {
+    // check session
+    if (req.session) {
+    Comment.create({
+        comment_text: req.body.comment_text, 
+        post_id: req.body.post_id,
+        // use the id from the session
+        user_id: req.session.user_id,
+    })
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        })
     }
 });
 
-router.delete('/:id', withAuth, async (req, res) => {
-    try {
-        const collegeData = await UserCollege.destroy({
-            where: {
-                college_id: req.params.id,
-                user_id: req.session.user_id
-            }
-        });
 
-        if (!projectData) {res.status(404).json({message: `Couldn't find a college with this id!`})};
-
-        res.status(200).json(collegeData);
-
-    } catch (err) {
+//route to update a comment
+router.put('/:id', withAuth, (req, res) => {
+    Comment.update({
+        comment_text: req.body.comment_text
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+    }).then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
+        }
+        res.json(dbCommentData);
+    }).catch(err => {
+        console.log(err);
         res.status(500).json(err);
-    }
+    });
 });
 
-router.post('/:id/comment', withAuth, async (req, res) => {
-    try {
-        const newComment = await Comment.create({
-            ...req.body,
-            user_id: req.session.user_id,
-            college_id: req.params.id
-        });
-        res.status(200).json(newComment);
-    } catch (err) {
+
+//route to delete a comment
+router.delete('/:id', withAuth, (req, res) => {
+    Comment.destroy({
+        where: {
+            id: req.params.id 
+        }
+    }).then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
+        }
+        res.json(dbCommentData);
+    }).catch(err => {
+        console.log(err);
         res.status(500).json(err);
-    }
+    });
 });
 
-router.put('/:id/comment/:commentID', withAuth, async (req, res) => {
-    try {
-        const updatedComment = await Comment.update(
-            {
-                title: req.body.title,
-                content: req.body.content
-            },    
-            {
-            where: {
-                college_id: req.params.id,
-                id: req.params.commentID
-            }
-            }
-        )
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
 
 module.exports = router;
