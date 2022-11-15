@@ -1,22 +1,18 @@
 {{> college-info}}
 
-{{#if loggedIn}}
-
 <div class="commentCard">
      <h3 class="card-header"></h3>
     <form class="card-body comment-form" id="comment-form">
-
+        <h1>Comments: </h1>
         <label class="form-label">Comment</label>
         <input id="comment" name="comment-body" class="form-input" />
         <div class="form-button-layout">
-        <button type="submit" class="btn">Submit</button>
+        <button id="submit" type="submit" class="btn" data-collegeID={{college.id}}>Submit</button>
         </div>
     </form>
 </div>
 
-{{/if}}
-
-{{> comments post.comments}}
+{{> comments college.comments}}
 
 {{#if loggedIn}}
 <script src="/js/comment.js"></script>

@@ -1,6 +1,7 @@
 const collegesData = require("./colleges-seed.json");
 const sequelize = require("../config/connection");
-const { College } = require("../models");
+const { College, Comment } = require("../models");
+const commentsData = require("./comment-seed.json")
 
 const seedAll = async () => {
 	// call sequelize and create the database
@@ -39,8 +40,21 @@ const seedAll = async () => {
 			Female_Students: collegesData[i]["2020.student.demographics.women"] * 100,
 		}).catch((err) => {
 			console.log(err);
-		});
+		});	
 	}
+	
+	//for (let i = 0; i < commentsData.length; i++) {
+		//await Comment.create({ 
+		//	title: commentsData[i]["title"],
+		//	content: commentsData[i]["content"],
+		//	user_id: commentsData[i]["user_id"],
+		//	college_id: commentsData[i]["college_id"]
+		//}).catch((err) => {
+		//	console.log(err);
+		//});
+	//}
+	
+	
 	process.exit(0);
 };
 
