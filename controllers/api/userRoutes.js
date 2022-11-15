@@ -107,7 +107,11 @@ router.post('/login', (req, res) => {
 
 router.post('/logout', (req, res) => {
     if (req.session.loggedIn) {
-        req.session.destroy(() => {
+        req.session.save(() => {
+            req.session.user_id = '';
+            req.session.username = '';
+            req.session.loggedIn = false;
+
             res.status(204).end();
         });
     } else {

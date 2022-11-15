@@ -6,26 +6,13 @@ const router = require('express').Router();
 
 
 router.get('/', withAuth, (req, res) => {
-    UserCollege.findAll({
+    College.findAll({
       where: {
         user_id: req.session.user_id
       },
       attributes: [
         'id',
         'name',
-        'Instate_Tuition',
-        'Out_Of_State_Tuition',
-        'On_Campus',
-        'Off_Campus',
-        'size',
-        'url',
-        'location',
-        'associates',
-        'bachelors',
-        'Admission_Rate',
-        'Male_Students',
-        'Female_Students',
-        'School_Type'
       ],
       include: [
         {
@@ -53,26 +40,14 @@ router.get('/', withAuth, (req, res) => {
   });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-    UserCollege.findOne({
+    College.findOne({
         where: {
           id: req.params.id
         },
-        attributes: [ 'id',
-        'name',
-        'Instate_Tuition',
-        'Out_Of_State_Tuition',
-        'On_Campus',
-        'Off_Campus',
-        'size',
-        'url',
-        'location',
-        'associates',
-        'bachelors',
-        'Admission_Rate',
-        'Male_Students',
-        'Female_Students',
-        'School_Type'
-                  ],
+        attributes: [ 
+          'id',
+          'name',
+        ],
         include: [
           {
             model: User,

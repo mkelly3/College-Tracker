@@ -60,6 +60,14 @@ College.init(
       School_Type: {
         type: DataTypes.STRING,
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'user',
+            key: 'id'
+        }
+      },
     },
     {
       sequelize,
