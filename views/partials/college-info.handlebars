@@ -1,8 +1,51 @@
+
+<article class="collegeCard">
+    <div class="mainInfo">
+       
+        <h1 id ='collegeName' class="name">{{college.name}}</h1>
+        
+        <hr/>
+        <div class="data">
+              <div class=" info col-12">
+                <h3 class="col-6 text-black">School Webpage</h3>
+                <a id='collegePrice' href="{{college.url}}">{{college.url}}</a>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Location: </h3>
+                <p class="col-6">{{college.location}}</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Student Size: </h3>
+                <p class="col-6">{{college.size}}</p>
+            </div>
+            <div class="info col-12">
+                <h3 class="col-6 text-black">Tuition</h3>
+                <p class="col-6">Instate: {{college.Instate_Tuition}}</p>
+                <p class="col-6">Out of state: {{college.Out_Of_State_Tuition}}</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Room and Board: </h3>
+                <p class="col-6">On Campus: {{college.On_Campus}}</p>
+                <p class="col-6">Off Campus: {{college.Off_Campus}}</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Acceptance Rate: </h3>
+                <p class="col-6">{{college.Admission_Rate}}%</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Public or Private: </h3>
+                <p class="col-6">{{college.School_Type}}</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Degrees: </h3>
+                <p class="col-6">Associate's Degree: {{college.associates}}</p>
+                <p class="col-6">Bachelor's Degree: {{college.bachelors}}</p>
+            </div>
+            <div class=" info col-12">
+                <h3 class="col-6 text-black">Male to Female Ratio </h3>
+                <p class="col-6">M: {{college.Male_Students}}%</p>
+                <p class="col-6">F: {{college.Female_Students}}%</p>
+            </div>
+        <button type="click" class="saveSchool">Favorite!</button>
 <article class ="card">
     <div class = "card-header">
-    </div>
-    <a href = "/post/{{id}}">
-    <header class ="card-body">{{name}}</header>
-    </a>
-    <p class ="card-body">{{url}}</p>
-</article>

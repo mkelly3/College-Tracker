@@ -1,26 +1,14 @@
-const seedUsers = require('./user-seed');
-const collegesData = require('./colleges-seed.json');
-const seedComments = require('./comment-seed');
-const {College} = require('../models')
-const sequelize = require('../config/connection');
+const collegesData = require("./colleges-seed.json");
+const sequelize = require("../config/connection");
+const { College } = require("../models");
 
 const seedAll = async () => {
-    await sequelize.sync({ force: true });
-    console.log('\n----- DATABASE SYNCED -----\n');
-    for (let i = 0; i < collegesData.length; i++) {
-      let schoolType;
-      let admissionRate;
-      if (!!collegesData[i]["2020.cost.avg_net_price.public"]) {
-        schoolType = "public";
-      } else if (!!collegesData[i]["2020.cost.avg_net_price.private"]) {
-        schoolType = "private";
-      }
-      if (!!collegesData[i]["2020.admissions.admission_rate.overall"]) {
-        admissionRate =
-          collegesData[i]["2020.admissions.admission_rate.overall"] * 100;
-      }
-      await College.create({
-        name: collegesData[i]["school.name"],
+	await sequelize.sync({ force: true });
+	// await College.bulkCreate(seed, { returning: true });
+
+	for (let i = 0; i < collegesData.length; i++) {
+		await College.create({
+		    name: collegesData[i]["school.name"],
         Instate_Tuition: collegesData[i]["2020.cost.tuition.in_state"],
         Out_Of_State_Tuition: collegesData[i]["2020.cost.tuition.out_of_state"],
         size: collegesData[i]["2020.student.size"],
@@ -38,15 +26,8 @@ const seedAll = async () => {
       }).catch((err) => {
         console.log(err);
       });
-    }
-    await seedUsers();
-    console.log('\n----- USERS SEEDED -----\n');
-    
-    await seedComments();
-    console.log('\n----- COMMENTS SEEDED -----\n');
-  
-  
-    process.exit(0);
-  };
-  
-  seedAll();
+	}
+	process.exit(0);
+};
+
+seedAll();
