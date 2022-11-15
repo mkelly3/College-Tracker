@@ -5,7 +5,7 @@ async function logout() {
 	});
 
 	if (response.ok) {
-		document.location.replace("/main");
+		document.location.replace("/");
 	} else {
 		alert(response.statusText);
 	}
