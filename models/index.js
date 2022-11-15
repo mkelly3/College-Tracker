@@ -25,4 +25,4 @@ User.belongsToMany(College, {through: UserCollege});
 College.belongsToMany(User, {through: UserCollege});
 
 
-module.exports = { User, College, Comment};
+module.exports = { User, College, Comment, UserCollege};

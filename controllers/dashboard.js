@@ -1,12 +1,12 @@
 
 const sequelize = require('../config/connection');
-const {College, User, Comment} = require('../models');
+const {College, User, Comment, UserCollege} = require('../models');
 const withAuth = require('../utils/auth');
 const router = require('express').Router();
 
 
 router.get('/', withAuth, (req, res) => {
-    College.findAll({
+    UserCollege.findAll({
       where: {
         user_id: req.session.user_id
       },
@@ -30,7 +30,7 @@ router.get('/', withAuth, (req, res) => {
       include: [
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          attributes: ['id', 'comment_text', 'college_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username']
@@ -53,7 +53,7 @@ router.get('/', withAuth, (req, res) => {
   });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-    College.findOne({
+    UserCollege.findOne({
         where: {
           id: req.params.id
         },
@@ -80,7 +80,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
           },
           {
             model: Comment,
-            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+            attributes: ['id', 'comment_text', 'college_id', 'user_id'],
             include: {
               model: User,
               attributes: ['username']
