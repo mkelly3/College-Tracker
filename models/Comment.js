@@ -11,10 +11,6 @@ Comment.init(
             primaryKey: true,
             allowNull: false
         },
-        title: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         content: {
             type: DataTypes.STRING,
             allowNull: false
@@ -27,14 +23,6 @@ Comment.init(
                 key: 'id'
             }
         },
-        college_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'college',
-                key: 'id'
-            }
-        }
     },
     {
         sequelize,

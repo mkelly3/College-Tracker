@@ -17,9 +17,9 @@ College.hasMany(Comment, {
     onDelete: 'CASCADE'
 });
 
-Comment.belongsTo(College, {
-    foreignKey: 'college_id'
-});
+// Comment.belongsTo(College, {
+//     foreignKey: 'college_id'
+// });
 
 User.belongsToMany(College, {through: UserCollege});
 College.belongsToMany(User, {through: UserCollege});
