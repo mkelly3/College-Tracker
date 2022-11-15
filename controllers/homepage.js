@@ -49,7 +49,6 @@ router.get('/', (req, res) => {
 });
 
 
-
 router.get('/login', (req, res) => {
     if(req.session.loggedIn) {
         res.redirect('/');
@@ -62,10 +61,11 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-router.get('/College/:id', (req, res) => {
+
+router.get('/college', (req, res) => {
     College.findOne({
       where: {
-        id: req.params.id
+        name : req.body.name
       },
       attributes: [
         'id',
@@ -108,7 +108,7 @@ router.get('/College/:id', (req, res) => {
         const College = dbCollegeData.get({ plain: true });
   
         console.log(College);
-        res.render('single-College', { College, loggedIn: req.session.loggedIn});
+       // res.render('single-College', { College, loggedIn: req.session.loggedIn});
 
 
       })
@@ -117,6 +117,7 @@ router.get('/College/:id', (req, res) => {
         res.status(500).json(err);
       });
   });
+
 
 router.get('/Colleges-comments', (req, res) => {
     College.findOne({
