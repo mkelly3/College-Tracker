@@ -1,9 +1,9 @@
-{{> college-info}}
+
+{{> college college}}
 
 {{#if loggedIn}}
-
-<div class="commentCard">
-     <h3 class="card-header"></h3>
+<div class="card">
+    <h3 class="card-header"></h3>
     <form class="card-body comment-form" id="comment-form">
 
         <label class="form-label">Comment</label>
@@ -13,7 +13,6 @@
         </div>
     </form>
 </div>
-
 {{/if}}
 
 {{> comments post.comments}}

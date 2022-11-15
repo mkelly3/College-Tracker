@@ -1,10 +1,9 @@
-<article class="collegeCard">
-    <div class="mainInfo">
-       
-        <h1 id ='collegeName' class="name">{{college.name}}</h1>
-        
-        <hr/>
-        <div class="data">
+<article class ="card">
+    <a href="/dashboard/edit/{{id}}">
+    <header>{{name}}</header>
+    </a>
+
+     <div class="data">
             <div class=" info col-12">
                 <h3 class="col-6 text-black">School Webpage</h3>
                 <a id='collegePrice' href="{{college.url}}">{{college.url}}</a>
@@ -51,4 +50,4 @@
     </div>
 </article>
 
-<script src="/js/favorite.js"></script>
+</article>

@@ -1,4 +1,6 @@
+
 //requiring all paths and packages 
+
 const express = require('express');
 const routes = require('./controllers');
 const exphbs = require('express-handlebars');
@@ -20,9 +22,9 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sess = {
     secret: 'Super secret secret',
     cookie: { 
-        //24 hours
         maxAge: 86400
     },
+     //session will not force the applicition to resave even if nothing has been modified
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({
