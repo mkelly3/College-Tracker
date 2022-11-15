@@ -5,17 +5,17 @@ const commentData = [
     {
       comment_text: "Great Job!",
       user_id: 1,
-      post_id: 1  
+      college_id: 1  
     },
     {
         comment_text: "Awesome",
         user_id: 2,
-        post_id: 2 
+        college_id: 2 
     },
     {
         comment_text: "I disagree with your analysis",
         user_id: 3,
-        post_id: 3
+        college_id: 3
     }
 
 ];
